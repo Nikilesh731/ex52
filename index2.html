@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loan EMI Calculator</title>
+  <style>
+    body { font-family: Arial; }
+    .container {
+      width: 350px; margin: 40px auto; padding: 18px 22px; border: 3px solid #2072e8; border-radius: 18px;
+    }
+    h2 { text-align: center; color: #1946b5; }
+    label { font-weight: bold; color: #234;}
+    input, .output { width: 95%; padding: 8px; margin-bottom: 15px; border-radius: 7px; border: 1px solid #bbb; }
+    .result { background: #2072e8; color: #fff; font-weight: bold; margin-bottom: 8px;}
+    .output { background: #eaf4ff; border: none; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Loan EMI Calculator</h2>
+    <label>Loan Amount(Rs.):</label>
+    <input type="number" id="amount" value="500000">
+    <label>Annual Interest Rate(%):</label>
+    <input type="number" id="rate" value="15">
+    <label>Tenure(Years):</label>
+    <input type="number" id="years" value="5">
+    <button onclick="calculateEMI()">Calculate</button>
+    <div class="result" id="results"></div>
+  </div>
+  <script>
+    function calculateEMI() {
+      let P = +document.getElementById('amount').value;
+      let annualRate = +document.getElementById('rate').value;
+      let years = +document.getElementById('years').value;
+      let N = years * 12;
+      let R = annualRate / 12 / 100;
+      let emi = (P * R * Math.pow(1+R, N)) / (Math.pow(1+R, N) - 1);
+      let totalRepay = Math.round(emi * N);
+      let totalInterest = totalRepay - P;
+      document.getElementById('results').innerHTML =
+        "Loan Amount: ₹" + P + "<br>" +
+        "Total Interest: ₹" + totalInterest + "<br>" +
+        "EMI: ₹" + emi.toLocaleString(undefined, {maximumFractionDigits:0}) + "<br>" +
+        "Total Repayment: ₹" + totalRepay;
+    }
+  </script>
+</body>
+</html>
